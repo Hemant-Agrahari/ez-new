@@ -96,7 +96,7 @@ async function main() {
       originalSize += content.length;
     }
   }
-  const allCSS = combinedCSS.join('\n');
+  const allCSS = combinedCSS.join('\n').replace(/@charset[^;]+;/gi, '');
   console.log(`Original combined CSS: ${(originalSize / 1024).toFixed(0)}KB\n`);
 
   // Write combined CSS to temp file for PurgeCSS
@@ -130,7 +130,9 @@ async function main() {
         const name = path.basename(f);
         // Only include if it's this page's CSS or it's referenced in the HTML
         if (f === sourceCSSFiles[0] || html.includes(name)) {
-          pageCSS += fs.readFileSync(f, 'utf-8') + '\n';
+          let content = fs.readFileSync(f, 'utf-8');
+          content = content.replace(/@charset[^;]+;/gi, '');
+          pageCSS += content + '\n';
         }
       }
     }
@@ -151,7 +153,8 @@ async function main() {
       });
 
       if (purgeResult.length > 0) {
-        const purgedCSS = purgeResult[0].css;
+        let purgedCSS = purgeResult[0].css;
+        purgedCSS = '@charset "UTF-8";\n' + purgedCSS.replace(/@charset[^;]+;/gi, '');
         const outputPath = path.join(DIST_DIR, 'css', 'pages', `${pg.name}.purged.css`);
         fs.mkdirSync(path.dirname(outputPath), { recursive: true });
         fs.writeFileSync(outputPath, purgedCSS);
