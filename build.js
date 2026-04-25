@@ -302,6 +302,16 @@ function buildPage(pageName) {
     `href="${relPrefix}pages/${pageName}/home.css"`,
   );
 
+  // Add defer to all script tags (project rule: all JS must be deferred)
+  finalHtml = finalHtml.replace(
+    /<script(\s+)(?!.*(?:defer|type="application\/ld\+json"))/g,
+    '<script defer$1',
+  );
+  finalHtml = finalHtml.replace(
+    /<script(\s+src="[^"]*")(\s*)(?!.*defer)/g,
+    '<script defer$1$2',
+  );
+
   fs.writeFileSync(distPath, finalHtml);
   console.log(`Generated ${distPath}`);
 }
