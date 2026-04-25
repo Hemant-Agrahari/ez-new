@@ -187,11 +187,13 @@ function buildPage(pageName) {
   const hasOgImage = existingOgTags.includes('og:image');
   const hasOgTitle = existingOgTags.includes('og:title');
   const hasOgDesc = existingOgTags.includes('og:description');
+  const hasOgType = existingOgTags.includes('og:type');
   
   let defaultOgTags = "";
   if (!hasOgImage) defaultOgTags += ogImageFallback;
   if (!hasOgTitle) defaultOgTags += `\n    <meta property="og:title" content="${yamlData.title || pageName} | EZ Heat &amp; Air">`;
   if (!hasOgDesc) defaultOgTags += `\n    <meta property="og:description" content="${cleanDesc}">`;
+  if (!hasOgType) defaultOgTags += `\n    <meta property="og:type" content="website">`;
   
   const finalOgTags = ogTags + defaultOgTags;
 
@@ -224,6 +226,9 @@ function buildPage(pageName) {
   } else {
     html = `<!doctype html>\n<html lang="en">\n  ${finalHead}\n${html}\n</html>`;
   }
+
+  // Strip all existing stylesheet links as we use critical + purged CSS
+  html = html.replace(/<link[^>]*rel="stylesheet"[^>]*>/gi, "");
 
   // Inject per-page purged CSS before </head> (replaces the 3 external Next.js files)
   const purgedCSSLink = `    <link rel="stylesheet" href="css/pages/${pageName === 'home' ? 'index' : pageName}.purged.css" media="print" onload="this.media='all'" />`;

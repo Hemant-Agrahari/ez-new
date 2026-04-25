@@ -157,13 +157,19 @@ body {
         z-index: 1050 !important;
     }
 
-    /* Click-to-open dropdowns — disable any hover-show from external CSS */
-    #offcanvasNavbar .navbar-nav .nav-item.dropdown:hover>.dropdown-menu {
-        display: none !important;
+    /* Desktop hover support */
+    #offcanvasNavbar .navbar-nav .nav-item .dropdown:hover > .dropdown-menu {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 1050 !important;
     }
 
-    #offcanvasNavbar .navbar-nav .nav-item.dropdown.show>.dropdown-menu {
+    #offcanvasNavbar .navbar-nav .nav-item .dropdown.show > .dropdown-menu {
         display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 1050 !important;
     }
 
     .dropdown {
@@ -176,6 +182,11 @@ body {
    ============================================================ */
 
 @media (max-width: 991.98px) {
+    /* Hide desktop dropdown menu on mobile */
+    .dropdown-menu {
+        display: none !important;
+    }
+
     .offcanvas {
         z-index: 1060 !important;
         background-color: #fff !important;

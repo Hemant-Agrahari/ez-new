@@ -25,6 +25,11 @@ const VENDOR_CSS_FILES = [
   'assets/css/2a86f48a0129c60e.css',  // Slick styles (20KB)
   'assets/css/d376702473bfff86.css',   // Additional styles (35KB)
   'shared/css/global.css',
+  'shared/css/fonts.css',
+  'shared/css/header.css',
+  'shared/css/footer.css',
+  'shared/css/promo-testimonial.css',
+  'shared/css/carousel-vanilla.css',
 ];
 
 // Comprehensive safelist: classes added by JavaScript at runtime
@@ -34,6 +39,7 @@ const SAFELIST = {
     // Bootstrap modal
     'show', 'fade', 'modal-open', 'modal-backdrop', 'modal-static',
     'collapse', 'collapsing', 'collapsed',
+    'offcanvas', 'offcanvas-backdrop',
     // Bootstrap dropdown
     'dropdown-menu', 'dropdown-toggle', 'dropup', 'dropend', 'dropstart',
     // Bootstrap nav/tabs

@@ -1,4 +1,61 @@
 (function () {
+  const offcanvasToggles = document.querySelectorAll('[data-bs-toggle="offcanvas"]');
+  const offcanvasCloseBtns = document.querySelectorAll('.offcanvas .btn-close');
+  offcanvasToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = toggle.getAttribute('data-bs-target') || toggle.getAttribute('href');
+      const target = document.querySelector(targetId);
+      if (target) {
+        target.classList.add('show');
+        target.style.visibility = 'visible';
+      }
+    });
+  });
+  offcanvasCloseBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const offcanvas = btn.closest('.offcanvas');
+      if (offcanvas) {
+        offcanvas.classList.remove('show');
+        setTimeout(() => {
+          if (!offcanvas.classList.contains('show')) {
+            offcanvas.style.visibility = 'hidden';
+          }
+        }, 300);
+      }
+    });
+  });
+  const collapseToggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+  collapseToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = toggle.getAttribute('href') || toggle.getAttribute('data-bs-target');
+      let target = null;
+      if (targetId && targetId !== '#') {
+        target = document.querySelector(targetId);
+      }
+      const dropdownParent = toggle.closest('.dropdown');
+      document.querySelectorAll('.collapse.show, .dropdown.show').forEach(el => {
+        if (el !== target && el !== dropdownParent) {
+           el.classList.remove('show');
+        }
+      });
+      if (target) {
+        target.classList.toggle('show');
+      }
+      if (dropdownParent) {
+        dropdownParent.classList.toggle('show');
+      }
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown') && !e.target.closest('[data-bs-toggle="offcanvas"]')) {
+      document.querySelectorAll('.collapse.show, .dropdown.show').forEach(el => {
+        el.classList.remove('show');
+      });
+    }
+  });
   const dayEl = document.getElementById("current-day");
   const timeEl = document.getElementById("current-time");
   function updateTime() {
