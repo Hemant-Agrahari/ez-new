@@ -24,12 +24,8 @@
 <meta name="robots" content="index, follow">
 <link rel="icon" href="assets/images/favicon.ico">
 <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-<!-- Fonts self-hosted in assets/fonts/ — see shared/css/fonts.css -->
+<!-- Vendor + Page CSS: Purged per-page for optimal performance -->
 <link rel="stylesheet" href="shared/css/fonts.css">
-<link rel="stylesheet" href="assets/css/d3df112486f97f47.css" crossorigin="" data-precedence="next">
-<link rel="stylesheet" href="assets/css/2a86f48a0129c60e.css" crossorigin="" data-precedence="next">
-<link rel="stylesheet" href="assets/css/d376702473bfff86.css" crossorigin="" data-precedence="next">
-<!-- Slick CSS removed: self-hosted in shared/css/carousel.css -->
 <link rel="stylesheet" href="shared/css/header.css">
 <link rel="stylesheet" href="shared/css/promo-testimonial.css">
 <link rel="stylesheet" href="shared/css/footer.css">
@@ -158,6 +154,7 @@
         ]
       }
     </script>
+      <link rel="stylesheet" href="css/pages/index.purged.css" media="print" onload="this.media='all'">
       <link rel="preload" as="image" href="assets/images/hero-bg-2.webp" fetchpriority="high">
 </head>
   
@@ -605,10 +602,6 @@
         <section class="home-banner" title="Reliable Heating, Air Conditioner Maintenance and Ventilation Services by Experts in San Diego, Riverside, and Orange County">
           <div class="container">
             <div class="banner-col row justify-content-between">
-              <img alt="banner img" srcset="
-                  assets/images/generated/heat-air-banner-img-2-375w.webp 375w,
-                  pages/home/assets/heat-air-banner-img-2.webp            537w
-                " sizes="(max-width: 767px) 375px, 537px" fetchpriority="high" loading="eager" data-nimg="fill" class="banner-bg-img" src="pages/home/assets/heat-air-banner-img-2.webp" width="537" height="729">
               <div class="col-lg-7 col-md-6">
                 <div class="banner-content">
                   <h1 class="titles">
@@ -1444,6 +1437,9 @@
     </div>
     <script defer="" src="shared/js/modules/header.js"></script>
 <script defer="" src="shared/js/main.js"></script>
+<!-- VCarousel replacement for Slick (banned library) -->
+<script defer="" src="shared/js/modules/carousel-vanilla.js"></script>
+<script defer="" src="shared/js/modules/slick-init.js"></script>
 
 
     <script src="shared/js/modules/carousel-vanilla.js" defer=""></script>

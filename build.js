@@ -207,6 +207,10 @@ function buildPage(pageName) {
     html = `<!doctype html>\n<html lang="en">\n  ${finalHead}\n${html}\n</html>`;
   }
 
+  // Inject per-page purged CSS before </head> (replaces the 3 external Next.js files)
+  const purgedCSSLink = `    <link rel="stylesheet" href="css/pages/${pageName === 'home' ? 'index' : pageName}.purged.css" media="print" onload="this.media='all'" />`;
+  html = html.replace("</head>", `${purgedCSSLink}\n  </head>`);
+
   // Replace markers
   html = html.replace(/{{header}}/g, header);
   // Re-run component replacement for any markers left in the body

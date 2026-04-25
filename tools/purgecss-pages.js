@@ -15,17 +15,16 @@ const { PurgeCSS } = require('purgecss');
 const fs = require('fs');
 const path = require('path');
 
-const DIST_DIR = path.join(__dirname, '..', 'dist');
+const ROOT_DIR = path.join(__dirname, '..');
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
 
-// All vendor + global CSS files to combine and purge (Bootstrap included per css-strategy.md)
+// All vendor + global CSS files to combine and purge
+// These are the Next.js leftover CSS files from assets/css/
 const VENDOR_CSS_FILES = [
-  'assets/vendor/css/bootstrap.min.css',
-  'css/vendor/site-main.css',
-  'css/vendor/site-components.css',
-  'css/vendor/site-pages.css',
-  'css/vendor/site-templates.css',
-  'css/vendor/site-service-pages.css',
-  'css/global.css',
+  'assets/css/d3df112486f97f47.css',  // Bootstrap + base styles (223KB)
+  'assets/css/2a86f48a0129c60e.css',  // Slick styles (20KB)
+  'assets/css/d376702473bfff86.css',   // Additional styles (35KB)
+  'shared/css/global.css',
 ];
 
 // Comprehensive safelist: classes added by JavaScript at runtime
@@ -84,7 +83,7 @@ async function main() {
   let originalSize = 0;
   const combinedCSS = [];
   for (const cssFile of VENDOR_CSS_FILES) {
-    const fullPath = path.join(DIST_DIR, cssFile);
+    const fullPath = path.join(ROOT_DIR, cssFile);
     if (fs.existsSync(fullPath)) {
       const content = fs.readFileSync(fullPath, 'utf-8');
       combinedCSS.push(content);
@@ -107,7 +106,6 @@ async function main() {
 
     // Include the page-specific SOURCE CSS (from shared/, not dist/)
     // This ensures new rules in home.css, service.css etc. are included in the purge input
-    const SHARED_DIR = path.join(__dirname, '..', 'shared');
     const html = fs.readFileSync(htmlPath, 'utf-8');
     let pageCSS = '';
 
@@ -115,11 +113,11 @@ async function main() {
     // Explicitly read from shared/ source — never from purged/critical outputs
     const pageCSSName = pg.name === 'index' ? 'home' : pg.name;
     const sourceCSSFiles = [
-      path.join(SHARED_DIR, 'css', 'pages', pageCSSName + '.css'),
-      path.join(SHARED_DIR, 'css', 'pages', 'service.css'),
-      path.join(SHARED_DIR, 'css', 'pages', 'legal.css'),
-      path.join(SHARED_DIR, 'css', 'pages', 'about.css'),
-      path.join(SHARED_DIR, 'css', 'pages', 'contact.css'),
+      path.join(ROOT_DIR, 'shared', 'css', 'pages', pageCSSName + '.css'),
+      path.join(ROOT_DIR, 'shared', 'css', 'pages', 'service.css'),
+      path.join(ROOT_DIR, 'shared', 'css', 'pages', 'legal.css'),
+      path.join(ROOT_DIR, 'shared', 'css', 'pages', 'about.css'),
+      path.join(ROOT_DIR, 'shared', 'css', 'pages', 'contact.css'),
     ];
     for (const f of sourceCSSFiles) {
       if (fs.existsSync(f) && !f.includes('.purged.') && !f.includes('.critical.')) {
