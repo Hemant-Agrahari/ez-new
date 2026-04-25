@@ -165,17 +165,35 @@ function buildPage(pageName) {
   // Default meta description if missing
   const defaultDesc =
     "EZ Heat & Air offers expert HVAC services, air conditioning repair, heating installation, and plumbing in San Diego. Contact us today for reliable service!";
+  // Strip YAML quotes if present (values may have surrounding quotes from YAML parsing)
+  const cleanDesc = yamlData.description
+    ? yamlData.description.replace(/^["']|["']$/g, "").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    : defaultDesc;
   const metaDesc = metaDescMatch
     ? metaDescMatch[0]
-    : `<meta name="description" content="${yamlData.description || defaultDesc}" />`;
+    : `<meta name="description" content="${cleanDesc}" />`;
 
-  // 3. Social Tags (OG, Twitter)
+  // 3. Social Tags (OG, Twitter) - with fallbacks for missing OG tags
   const ogTagsMatch = pageHeadContent.match(
     /<meta\s+(property|name)="(og|twitter):[\s\S]*?"\s+content="[\s\S]*?"\s*\/?>/gi,
   );
   const ogTags = ogTagsMatch
     ? ogTagsMatch.map((t) => t.trim()).join("\n    ")
     : "";
+  
+  // Always add og:image if missing, plus og:title and og:description if missing
+  const ogImageFallback = '<meta property="og:image" content="https://www.ezheatandair.com/images/og-image.webp">';
+  const existingOgTags = ogTagsMatch ? ogTagsMatch.map(t => t.trim()).join(" ") : "";
+  const hasOgImage = existingOgTags.includes('og:image');
+  const hasOgTitle = existingOgTags.includes('og:title');
+  const hasOgDesc = existingOgTags.includes('og:description');
+  
+  let defaultOgTags = "";
+  if (!hasOgImage) defaultOgTags += ogImageFallback;
+  if (!hasOgTitle) defaultOgTags += `\n    <meta property="og:title" content="${yamlData.title || pageName} | EZ Heat &amp; Air">`;
+  if (!hasOgDesc) defaultOgTags += `\n    <meta property="og:description" content="${cleanDesc}">`;
+  
+  const finalOgTags = ogTags + defaultOgTags;
 
   // 4. Other tags (clean up pageHeadContent)
   let cleanedPageHead = pageHeadContent
@@ -195,7 +213,7 @@ function buildPage(pageName) {
     ${technicalTags}
     ${title}
     ${metaDesc}
-    ${ogTags}
+    ${finalOgTags}
     ${headMeta}
     ${cleanedPageHead}
   </head>`.trim();
