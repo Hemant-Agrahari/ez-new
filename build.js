@@ -209,7 +209,16 @@ function buildPage(pageName) {
 
   // Inject per-page purged CSS before </head> (replaces the 3 external Next.js files)
   const purgedCSSLink = `    <link rel="stylesheet" href="css/pages/${pageName === 'home' ? 'index' : pageName}.purged.css" media="print" onload="this.media='all'" />`;
-  html = html.replace("</head>", `${purgedCSSLink}\n  </head>`);
+  
+  // Inline critical CSS if available (<14KB gzipped per project rules)
+  let criticalCSSInjection = "";
+  const criticalCSSPath = path.join(__dirname, "shared/css/pages", `${pageName === 'home' ? 'index' : pageName}.critical.css`);
+  if (fs.existsSync(criticalCSSPath)) {
+    const criticalCSS = fs.readFileSync(criticalCSSPath, "utf8");
+    criticalCSSInjection = `\n    <style>\n${criticalCSS}\n    </style>`;
+  }
+  
+  html = html.replace("</head>", `${criticalCSSInjection}${purgedCSSLink}\n  </head>`);
 
   // Replace markers
   html = html.replace(/{{header}}/g, header);
