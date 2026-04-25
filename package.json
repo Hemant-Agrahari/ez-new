@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "build": "node build.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1",
+    "playwright-core": "^1.59.1",
+    "purgecss": "^8.0.0"
+  }
+}

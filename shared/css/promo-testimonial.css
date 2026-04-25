@@ -1,0 +1,192 @@
+/* shared/css/promo-testimonial.css */
+/* Styles for Promo Section and Testimonials (Shared across all pages) */
+
+/* ==========================================================================
+   1. Promo Section Styles
+   ========================================================================== */
+.promo-section {
+    background: #eefaf2;
+    padding: 3rem 0;
+    /* Bootstrap py-5 equivalent */
+    width: 100%;
+}
+
+.promo-section .container-fluid {
+    width: 100%;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 992px) {
+    .promo-section .container-fluid {
+        padding-right: 3rem;
+        /* px-lg-5 equivalent */
+        padding-left: 3rem;
+    }
+}
+
+.promo-carousel .promo-card-item {
+    padding: 0 10px;
+    display: flex;
+    width: 100%;
+}
+
+.promo-section .icon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 30px 23px;
+    height: 100%;
+    transition: all 0.3s ease;
+    border: none;
+    text-align: center;
+}
+
+.promo-section .icon-card:hover {
+    box-shadow: 0 15px 35px rgba(49, 160, 91, 0.1);
+}
+
+.promo-section .icon-card img {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 1rem;
+    /* mb-3 equivalent */
+    display: block;
+}
+
+.promo-section .icon-card h4 {
+    display: block;
+    width: 100%;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: normal;
+    color: #2d2d2d;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.promo-section .icon-card .card-sub-title {
+    display: block;
+    width: 100%;
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d2d2d;
+    margin-bottom: 16px;
+}
+
+.promo-section .icon-card .card-description {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    color: #2d2d2d;
+    line-height: 26px;
+    margin-bottom: 0;
+}
+
+.promo-carousel .slick-dots {
+    margin-top: 30px;
+}
+
+/* ==========================================================================
+   2. Testimonials Section Styles
+   ========================================================================== */
+.testimonials-section {
+    padding: 3rem 0;
+    /* py-5 equivalent */
+    text-align: center;
+}
+
+.testimonials-section .section-title {
+    margin-bottom: 3rem !important;
+    /* mb-5 equivalent */
+}
+
+.testimonial-card-item {
+    display: flex;
+    width: 100%;
+    padding-left: 1rem;
+    /* px-3 equivalent */
+    padding-right: 1rem;
+    margin-bottom: 1.5rem;
+    /* mb-4 equivalent */
+}
+
+.testimonial-card {
+    background: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    /* shadow-sm equivalent */
+    border-radius: 20px;
+    /* rounded-3 fallback */
+    padding: 1.5rem;
+    /* p-4 equivalent */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+.testimonial-card .stars {
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
+    /* mb-3 equivalent */
+}
+
+.testimonial-card .stars img {
+    width: 24px;
+    /* Optimized display size */
+    height: 24px;
+    margin: 0 2px;
+    padding: 0;
+    display: inline-block;
+}
+
+.testimonial-card p {
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    color: #6e6e6e;
+    margin: 24px 0 16px;
+    padding: 4px 0;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+.testimonial-card h5 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: normal;
+    margin: 24px 0 0;
+    padding: 0;
+    text-align: center;
+    color: #2d2d2d;
+    display: block;
+    width: 100%;
+}
+
+/* ==========================================================================
+   3. Responsive Media Queries
+   ========================================================================== */
+@media (max-width: 991.98px) {
+    .promo-section {
+        padding: 40px 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .testimonial-card h5 {
+        font-size: 20px;
+    }
+
+    .promo-section .icon-card h4 {
+        font-size: 32px;
+    }
+}
