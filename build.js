@@ -211,14 +211,26 @@ function buildPage(pageName) {
   const purgedCSSLink = `    <link rel="stylesheet" href="css/pages/${pageName === 'home' ? 'index' : pageName}.purged.css" media="print" onload="this.media='all'" />`;
   
   // Inline critical CSS if available (<14KB gzipped per project rules)
+  // RULE: Structured Data (JSON-LD) must come AFTER CSS per project standards
+  // Strategy: Extract JSON-LD, inject CSS first, then add JSON-LD after purged CSS
   let criticalCSSInjection = "";
   const criticalCSSPath = path.join(__dirname, "shared/css/pages", `${pageName === 'home' ? 'index' : pageName}.critical.css`);
+  
+  // Extract JSON-LD script if present (to be placed after CSS per project rules)
+  let jsonLdScript = "";
+  const jsonLdMatch = html.match(/(<script[^>]*type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>)/i);
+  if (jsonLdMatch) {
+    jsonLdScript = "\n    " + jsonLdMatch[0];
+    html = html.replace(jsonLdMatch[0], ""); // Remove original JSON-LD
+  }
+  
   if (fs.existsSync(criticalCSSPath)) {
     const criticalCSS = fs.readFileSync(criticalCSSPath, "utf8");
     criticalCSSInjection = `\n    <style>\n${criticalCSS}\n    </style>`;
   }
   
-  html = html.replace("</head>", `${criticalCSSInjection}${purgedCSSLink}\n  </head>`);
+  // Inject: CSS first, then JSON-LD after (per project rules)
+  html = html.replace("</head>", `${criticalCSSInjection}${purgedCSSLink}${jsonLdScript}\n  </head>`);
 
   // Replace markers
   html = html.replace(/{{header}}/g, header);
