@@ -36,7 +36,7 @@ function injectImageOptimization($, yamlData) {
     }
   });
 
-  // 2. Handle LCP Image (fetchpriority="high", loading="eager")
+  // 2. Handle LCP Image (fetchpriority="high", loading="eager") - preload handled in technicalTags above
   if (yamlData.lcp_img) {
     const lcpSrcSnippet = yamlData.lcp_img;
     $(`img[src*="${lcpSrcSnippet}"]`).attr("fetchpriority", "high");
@@ -148,10 +148,13 @@ function buildPage(pageName) {
   const headMeta = getComponent("head-meta");
   const header = getComponent("header");
 
-  // 1. Technical Tags (Charset, Viewport)
+  // 1. Technical Tags (Charset, Viewport) + LCP Image Preload
+  const lcpImgPreload = yamlData.lcp_img
+    ? `\n    <link rel="preload" as="image" href="${yamlData.lcp_img}" fetchpriority="high" />`
+    : "";
   const technicalTags = `
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />`.trim();
+    <meta name="viewport" content="width=device-width, initial-scale=1" />${lcpImgPreload}`.trim();
 
   // 2. Brand Tags (Title, Meta Description)
   const titleMatch = pageHeadContent.match(/<title>([\s\S]*?)<\/title>/i);
